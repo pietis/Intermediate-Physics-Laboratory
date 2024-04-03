@@ -16,11 +16,11 @@ def read_asc_file(file_path):
 # 1. 노이즈 array 만들기=================================================================================================================================
 
 # 5개의 Noise ASC 파일 경로
-noise_paths = ["170K+-0.1_RUBY/170K_RUBY_NOISE1.asc",
-               "170K+-0.1_RUBY/170K_RUBY_NOISE2.asc",
-               "170K+-0.1_RUBY/170K_RUBY_NOISE3.asc",
-               "170K+-0.1_RUBY/170K_RUBY_NOISE4.asc",
-               "170K+-0.1_RUBY/170K_RUBY_NOISE5.asc"]
+noise_paths = ["PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_NOISE1.asc",
+               "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_NOISE2.asc",
+               "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_NOISE3.asc",
+               "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_NOISE4.asc",
+               "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_NOISE5.asc"]
 
 # 각 파일에서 데이터를 가져와 array로 변환하여 리스트에 저장
 noise_list = [read_asc_file(noise) for noise in noise_paths]
@@ -45,11 +45,11 @@ for i in range(len(noise_list[0])):
 # 2. array 만들기=================================================================================================================================
 
 # 5개의 파일 경로
-data_paths = ["170K+-0.1_RUBY/170K_RUBY_1.asc",
-              "170K+-0.1_RUBY/170K_RUBY_2.asc",
-              "170K+-0.1_RUBY/170K_RUBY_3.asc",
-              "170K+-0.1_RUBY/170K_RUBY_4.asc",
-              "170K+-0.1_RUBY/170K_RUBY_5.asc"]
+data_paths = ["PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_1.asc",
+              "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_2.asc",
+              "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_3.asc",
+              "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_4.asc",
+              "PL/Data/190K+-0.01_RUBY_4mTorr/190K_RUBY_5.asc"]
 
 # 각 파일에서 데이터를 가져와 array로 변환하여 리스트에 저장
 data_list = [read_asc_file(data) for data in data_paths]
@@ -71,19 +71,17 @@ for i in range(1024):
 
 x_fit = np.linspace(min(x_data), max(x_data), len(x_data))
 
-'''
-total_variation = sum((y_data - np.mean(y_data))**2)
+'''total_variation = sum((y_data - np.mean(y_data))**2)
 residuals = y_data - y_fit
 residual_variation = sum(residuals**2)
 r_squared = 1 - (residual_variation / total_variation)
-print("R squared value is", r_squared)
-'''
+print("R squared value is", r_squared)'''
 
 # 5. 그래프 그리기 =================================================================================================================================
 
 plt.figure()
 plt.plot(x_data, y_data, label = 'Original data', color = 'black')
-# plt.plot(x_fit, y_fit, 'r-', label = 'Fitted Curve')
+'''plt.plot(x_fit, y_fit, 'r-', label = 'Fitted Curve')'''
 plt.xlabel('Wavelength[nm]')
 plt.ylabel('Photon counts')
 plt.legend()

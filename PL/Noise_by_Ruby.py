@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.signal import impulse
 
+########################################################
+# PL/Data/NOISEWITHOUTHAND에서 PL/Data/NOISEWITHHANDOF670AREA를 뺀 코드 #
+########################################################
+
 # ASC 파일에서 데이터를 가져와서 array로 변환하는 함수
 def read_asc_file(file_path):
     # ASC 파일의 y data를 array로 반환
@@ -16,11 +20,11 @@ def read_asc_file(file_path):
 # 1. 노이즈 array 만들기=================================================================================================================================
 
 # 5개의 Noise ASC 파일 경로
-noise_paths = ["250K+-0.01_RUBY_7.4mTorr/250K_RUBY_NOISE1.asc",
-               "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_NOISE2.asc",
-               "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_NOISE3.asc",
-               "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_NOISE4.asc",
-               "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_NOISE5.asc"]
+noise_paths = ["PL/Data/NOISEWITHHANDOF670AREA/10K_NoiseWithHand1.asc",
+               "PL/Data/NOISEWITHHANDOF670AREA/10K_NoiseWithHand2.asc",
+               "PL/Data/NOISEWITHHANDOF670AREA/10K_NoiseWithHand3.asc",
+               "PL/Data/NOISEWITHHANDOF670AREA/10K_NoiseWithHand4.asc",
+               "PL/Data/NOISEWITHHANDOF670AREA/10K_NoiseWithHand5.asc"]
 
 # 각 파일에서 데이터를 가져와 array로 변환하여 리스트에 저장
 noise_list = [read_asc_file(noise) for noise in noise_paths]
@@ -45,11 +49,11 @@ for i in range(len(noise_list[0])):
 # 2. array 만들기=================================================================================================================================
 
 # 5개의 파일 경로
-data_paths = ["250K+-0.01_RUBY_7.4mTorr/250K_RUBY_1.asc",
-              "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_2.asc",
-              "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_3.asc",
-              "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_4.asc",
-              "250K+-0.01_RUBY_7.4mTorr/250K_RUBY_5.asc"]
+data_paths = ["PL/Data/NOISEWITHOUTHAND/10K_NoiseWithoutHand1.asc",
+               "PL/Data/NOISEWITHOUTHAND/10K_NoiseWithoutHand2.asc",
+               "PL/Data/NOISEWITHOUTHAND/10K_NoiseWithoutHand3.asc",
+               "PL/Data/NOISEWITHOUTHAND/10K_NoiseWithoutHand4.asc",
+               "PL/Data/NOISEWITHOUTHAND/10K_NoiseWithoutHand5.asc"]
 
 # 각 파일에서 데이터를 가져와 array로 변환하여 리스트에 저장
 data_list = [read_asc_file(data) for data in data_paths]
@@ -71,17 +75,11 @@ for i in range(1024):
 
 x_fit = np.linspace(min(x_data), max(x_data), len(x_data))
 
-'''total_variation = sum((y_data - np.mean(y_data))**2)
-residuals = y_data - y_fit
-residual_variation = sum(residuals**2)
-r_squared = 1 - (residual_variation / total_variation)
-print("R squared value is", r_squared)'''
 
 # 5. 그래프 그리기 =================================================================================================================================
 
 plt.figure()
 plt.plot(x_data, y_data, label = 'Original data', color = 'black')
-'''plt.plot(x_fit, y_fit, 'r-', label = 'Fitted Curve')'''
 plt.xlabel('Wavelength[nm]')
 plt.ylabel('Photon counts')
 plt.legend()

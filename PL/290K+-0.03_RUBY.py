@@ -16,12 +16,11 @@ def read_asc_file(file_path):
 # 1. 노이즈 array 만들기=================================================================================================================================
 
 # 5개의 Noise ASC 파일 경로
-noise_paths = ["70K+-0.005_RUBY/70K_RUBY_NOISE1.asc",
-               "70K+-0.005_RUBY/70K_RUBY_NOISE2.asc",
-               "70K+-0.005_RUBY/70K_RUBY_NOISE3.asc",
-               "70K+-0.005_RUBY/70K_RUBY_NOISE4.asc",
-               "70K+-0.005_RUBY/70K_RUBY_NOISE5.asc"]
-
+noise_paths = ["PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_NOISE1.asc",
+               "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_NOISE2.asc",
+               "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_NOISE3.asc",
+               "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_NOISE4.asc",
+               "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_NOISE5.asc"]
 
 # 각 파일에서 데이터를 가져와 array로 변환하여 리스트에 저장
 noise_list = [read_asc_file(noise) for noise in noise_paths]
@@ -43,14 +42,14 @@ for i in range(len(noise_list[0])):
         a += noise_list[j][i]
     noise_result.append(a/5)
 
-# 2. 로다민 array 만들기=================================================================================================================================
+# 2. array 만들기=================================================================================================================================
 
 # 5개의 파일 경로
-data_paths = ["70K+-0.005_RUBY/70K_RUBY1.asc",
-              "70K+-0.005_RUBY/70K_RUBY2.asc",
-              "70K+-0.005_RUBY/70K_RUBY3.asc",
-              "70K+-0.005_RUBY/70K_RUBY4.asc",
-              "70K+-0.005_RUBY/70K_RUBY5.asc"]
+data_paths = ["PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_1.asc",
+              "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_2.asc",
+              "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_3.asc",
+              "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_4.asc",
+              "PL/Data/290K+-0.03_RUBY_46mTorr/290K_RUBY_5.asc"]
 
 # 각 파일에서 데이터를 가져와 array로 변환하여 리스트에 저장
 data_list = [read_asc_file(data) for data in data_paths]
