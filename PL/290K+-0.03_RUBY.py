@@ -1,8 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-from scipy.signal import impulse
+from scipy.signal import find_peaks
 
 # ASC 파일에서 데이터를 가져와서 array로 변환하는 함수
 def read_asc_file(file_path):
@@ -29,10 +28,9 @@ noise_list = [read_asc_file(noise) for noise in noise_paths]
 df = pd.read_csv(noise_paths[0], sep=';', header=None)
 x_data = []
 for index, row in df.iterrows():
-        x_data.append(float(row[0]))
+        x_data.append(1239.8/float(row[0]))
 
 # float 앞에 1239.8/ 넣으면 x축을 [eV]로 바꾼다.
-# 이 데이터는 우리 Photoluminescence 실험 전반에서 같으니 x_data를 계속 사용하자.
 
 # 평균 Noise인 'noise result' array 생성 
 noise_result = []
@@ -67,22 +65,56 @@ y_data = []
 for i in range(1024):
     y_data.append(data_result[i] - noise_result[i])
 
+x_data = x_data[::-1]
+y_data = y_data[::-1]
+
 # 4. Fitting & R^2 값구하기 =================================================================================================================================
-
-x_fit = np.linspace(min(x_data), max(x_data), len(x_data))
-
-'''total_variation = sum((y_data - np.mean(y_data))**2)
-residuals = y_data - y_fit
-residual_variation = sum(residuals**2)
-r_squared = 1 - (residual_variation / total_variation)
-print("R squared value is", r_squared)'''
 
 # 5. 그래프 그리기 =================================================================================================================================
 
 plt.figure()
-plt.plot(x_data, y_data, label = 'Original data', color = 'black')
-'''plt.plot(x_fit, y_fit, 'r-', label = 'Fitted Curve')'''
-plt.xlabel('Wavelength[nm]')
+plt.ylim(0, 360)
+plt.plot(x_data, y_data, 'k-', label = 'Original data')
+plt.xlabel('Energy [eV]')
 plt.ylabel('Photon counts')
 plt.legend()
 plt.show()
+
+# 6.Peak position, height, FWHM 찾기
+
+def find_peak_properties(x, y):
+    x = np.array(x)  # 리스트를 NumPy 배열로 변환
+    y = np.array(y)  # 리스트를 NumPy 배열로 변환
+    
+    # Peak 찾기
+    peaks, _ = find_peaks(y, height=1000)  # 높이가 1000 이상인 모든 peak를 찾기
+
+    peak_properties = []
+    for peak_index in peaks:
+        peak_x = x[peak_index]  # peak의 x 좌표
+        peak_y = y[peak_index]  # peak의 y 좌표
+
+        # 반치적폭 찾기
+        half_max_height = peak_y / 2
+        left_index = np.argmin(np.abs(y[:peak_index] - half_max_height))
+        right_index = np.argmin(np.abs(y[peak_index:] - half_max_height)) + peak_index
+        fwhm = x[right_index] - x[left_index]
+
+        # 결과 저장
+        peak_properties.append({
+            'x': peak_x,
+            'y': peak_y,
+            'fwhm': fwhm
+        })
+
+    return peak_properties
+
+# Peak 속성 찾기
+peak_properties = find_peak_properties(x_data, y_data)
+
+# 결과 출력
+for i, peak in enumerate(peak_properties, 1):
+    print(f"Peak {i}:")
+    print(f"   X-coordinate: {peak['x']}")
+    print(f"   Y-coordinate: {peak['y']}")
+    print(f"   FWHM: {peak['fwhm']}")

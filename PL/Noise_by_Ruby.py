@@ -33,7 +33,7 @@ noise_list = [read_asc_file(noise) for noise in noise_paths]
 df = pd.read_csv(noise_paths[0], sep=';', header=None)
 x_data = []
 for index, row in df.iterrows():
-        x_data.append(float(row[0]))
+        x_data.append(1239.8/float(row[0]))
 
 # float 앞에 1239.8/ 넣으면 x축을 [eV]로 바꾼다.
 # 이 데이터는 우리 Photoluminescence 실험 전반에서 같으니 x_data를 계속 사용하자.
@@ -70,17 +70,17 @@ for i in range(len(data_list[0])):
 y_data = []
 for i in range(1024):
     y_data.append(data_result[i] - noise_result[i])
+x_data = x_data[::-1]
+y_data = y_data[::-1]
 
 # 4. Fitting & R^2 값구하기 =================================================================================================================================
-
-x_fit = np.linspace(min(x_data), max(x_data), len(x_data))
 
 
 # 5. 그래프 그리기 =================================================================================================================================
 
 plt.figure()
-plt.plot(x_data, y_data, label = 'Original data', color = 'black')
-plt.xlabel('Wavelength[nm]')
+plt.plot(x_data, y_data, 'k-', label = 'Original data')
+plt.xlabel('Energy [eV]')
 plt.ylabel('Photon counts')
 plt.legend()
 plt.show()
