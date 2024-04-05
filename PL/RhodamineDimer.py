@@ -81,11 +81,8 @@ popt, pcov = curve_fit(gaussiandimer, x_data, y_data, p0=initial_guess)
 # 추정된 파라미터
 amp1, cen1, wid1, amp2, cen2, wid2 = popt
 
-# x 값 배열 생성 (더 부드럽게 보이기 위해)
-x_fit = np.linspace(min(x_data), max(x_data), len(x_data))
-
 # 추정된 파라미터를 사용하여 가우시안 함수 적용
-y_fit = gaussiandimer(x_fit, amp1, cen1, wid1, amp2, cen2, wid2)
+y_fit = gaussiandimer(x_data, amp1, cen1, wid1, amp2, cen2, wid2)
 
 total_variation = sum((y_data - np.mean(y_data))**2)
 residuals = y_data - y_fit
@@ -99,8 +96,8 @@ print(popt, pcov)
 
 plt.figure()
 plt.plot(x_data, y_data, 'k-', label = 'Original data')
-plt.plot(x_fit, y_fit, 'r-', label = 'Gaussian curve')
+plt.plot(x_data, y_fit, 'r-', label = 'Gaussian curve')
 plt.xlabel('Wavelength[nm]')
-plt.ylabel('Photon counts')
+plt.ylabel('Counts')
 plt.legend()
 plt.show()

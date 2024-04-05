@@ -106,7 +106,7 @@ plt.figure()
 plt.plot(x_data, y_data, color = 'black', label = 'Original data')
 plt.plot(x_fit, y_fit, 'r--', label = 'Gaussian curve')
 plt.xlabel('Wavelength[nm]')
-plt.ylabel('Photon counts')
+plt.ylabel('Counts')
 plt.legend()
 plt.show()
 
